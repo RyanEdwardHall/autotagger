@@ -4,7 +4,6 @@
   "private": true,
   "dependencies": {
     "koa": "^2.11.0",
-    "koa-bodyparser": "4.2.1",
     "natural": "0.6.3"
   },
   "scripts": {

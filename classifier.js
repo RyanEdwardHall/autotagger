@@ -28,11 +28,8 @@ const trainingData = [
     {text: 'spotted employee sleeping on the job', idea: 'people'},
     {text: 'website improvements would help my phone', idea: 'tech'},
     {text: 'machine is constantly broken', idea: 'atm'},
+    {text: 'the atm machine didnt give me enough money', idea: 'atm'},
 ];
-
-// var testData = [
-//     {text: 'Your website is slow on my iphone'},
-// ];
 
 trainingData.forEach(function(item){
     classifier.addDocument(item.text, item.idea);
@@ -40,12 +37,5 @@ trainingData.forEach(function(item){
 
 classifier.train();
 db.store('orgID1234', classifier);
-
-// testData.forEach(function(item){
-    // var ideaGuess = classifier.classify(item.text);
-    // console.log(item.text);
-    // console.log("Suggested idea:", ideaGuess);
-    // console.log(classifier.getClassifications(item.text));
-// });
 
 module.exports = db;
