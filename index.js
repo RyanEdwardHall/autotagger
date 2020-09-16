@@ -1,30 +1,27 @@
 const Koa = require('koa');
-const app = new Koa();
+const bodyParser = require('koa-bodyparser');
 const cors = require('@koa/cors');
 const db = require('./classifier');
+
+const app = new Koa();
 
 // application variables
 const PORT = 3000;
 app.use(cors());
+app.use(bodyParser());
 app.use(async ctx => {
-  const {text, orgID } = ctx.request.query;
-  if (ctx.path === '/suggest') {
-    ctx.body = JSON.stringify({
-      idea: 'dummy idea label'
-    })
-  } else {
-    if (!orgID) ctx.throw(400, 'Missing mandatory param "orgID"');
-    if (!text) ctx.throw(400, 'Missing mandatory param "text"');
+  if (ctx.path !== '/suggest') ctx.throw(404);
 
-    try {
-      const classifier = db.fetch(orgID);
-      const label = classifier.getClassifications(text);
-      ctx.body = label
-    } catch (err) {
-      ctx.throw(404, err.message);
-    }
+  const { text } = ctx.request.body;
+  if (!text) ctx.throw(400, 'Missing mandatory param "text"');
+
+  try {
+    const classifier = db.fetch('orgID1234');
+    const results = classifier.getClassifications(text);
+    ctx.body = JSON.stringify(results);
+  } catch (err) {
+    ctx.throw(500, err.message);
   }
-
 });
 
 app.listen(PORT);
